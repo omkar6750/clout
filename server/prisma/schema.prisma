@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         String   @id @default(uuid())
+  email      String   @unique
+  password   String? // Hashed with Bcrypt
+  googleId   String?  @unique
+  isVerified Boolean  @default(false)
+  firstName  String
+  lastName   String
+  avatarUrl  String?
+  isOnline   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  messages Message[]
+  channels ChannelMember[]
+}
+
+enum ChannelType {
+  PUBLIC
+  PRIVATE
+  DM
+}
+
+model Channel {
+  id          String      @id @default(uuid())
+  name        String
+  description String?
+  isPrivate   Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  type        ChannelType @default(PUBLIC)
+
+  members   ChannelMember[]
+  messages  Message[]
+  summaries ChannelSummary[]
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+model ChannelMember {
+  id        String   @id @default(uuid())
+  userId    String
+  channelId String
+  role      Role     @default(MEMBER) // ADMIN, MEMBER
+  joinedAt  DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  channel Channel @relation(fields: [channelId], references: [id])
+
+  @@unique([userId, channelId])
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  content   String // Markdown supported (Code blocks etc.)
+  type      String   @default("TEXT") // TEXT, IMAGE, SYSTEM
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  channelId String
+  parentId  String? // For threading/replies
+
+  user    User      @relation(fields: [userId], references: [id])
+  channel Channel   @relation(fields: [channelId], references: [id])
+  parent  Message?  @relation("Thread", fields: [parentId], references: [id])
+  replies Message[] @relation("Thread")
+}
+
+model ChannelSummary {
+  id        String   @id @default(uuid())
+  content   String // The AI generated text
+  createdAt DateTime @default(now())
+
+  channelId String
+  channel   Channel @relation(fields: [channelId], references: [id])
+}
