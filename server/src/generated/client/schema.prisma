@@ -38,6 +38,7 @@ model Channel {
   description String?
   isPrivate   Boolean     @default(false)
   createdAt   DateTime    @default(now())
+  updatedAt   DateTime?   @updatedAt
   type        ChannelType @default(PUBLIC)
 
   hashtags String[] @default([])

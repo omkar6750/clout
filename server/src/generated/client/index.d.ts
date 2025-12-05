@@ -2580,6 +2580,7 @@ export namespace Prisma {
     description: string | null
     isPrivate: boolean | null
     createdAt: Date | null
+    updatedAt: Date | null
     type: $Enums.ChannelType | null
   }
 
@@ -2589,6 +2590,7 @@ export namespace Prisma {
     description: string | null
     isPrivate: boolean | null
     createdAt: Date | null
+    updatedAt: Date | null
     type: $Enums.ChannelType | null
   }
 
@@ -2598,6 +2600,7 @@ export namespace Prisma {
     description: number
     isPrivate: number
     createdAt: number
+    updatedAt: number
     type: number
     hashtags: number
     _all: number
@@ -2610,6 +2613,7 @@ export namespace Prisma {
     description?: true
     isPrivate?: true
     createdAt?: true
+    updatedAt?: true
     type?: true
   }
 
@@ -2619,6 +2623,7 @@ export namespace Prisma {
     description?: true
     isPrivate?: true
     createdAt?: true
+    updatedAt?: true
     type?: true
   }
 
@@ -2628,6 +2633,7 @@ export namespace Prisma {
     description?: true
     isPrivate?: true
     createdAt?: true
+    updatedAt?: true
     type?: true
     hashtags?: true
     _all?: true
@@ -2711,6 +2717,7 @@ export namespace Prisma {
     description: string | null
     isPrivate: boolean
     createdAt: Date
+    updatedAt: Date | null
     type: $Enums.ChannelType
     hashtags: string[]
     _count: ChannelCountAggregateOutputType | null
@@ -2738,6 +2745,7 @@ export namespace Prisma {
     description?: boolean
     isPrivate?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     type?: boolean
     hashtags?: boolean
     members?: boolean | Channel$membersArgs<ExtArgs>
@@ -2752,6 +2760,7 @@ export namespace Prisma {
     description?: boolean
     isPrivate?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     type?: boolean
     hashtags?: boolean
   }, ExtArgs["result"]["channel"]>
@@ -2762,6 +2771,7 @@ export namespace Prisma {
     description?: boolean
     isPrivate?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     type?: boolean
     hashtags?: boolean
   }, ExtArgs["result"]["channel"]>
@@ -2772,11 +2782,12 @@ export namespace Prisma {
     description?: boolean
     isPrivate?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     type?: boolean
     hashtags?: boolean
   }
 
-  export type ChannelOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "isPrivate" | "createdAt" | "type" | "hashtags", ExtArgs["result"]["channel"]>
+  export type ChannelOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "isPrivate" | "createdAt" | "updatedAt" | "type" | "hashtags", ExtArgs["result"]["channel"]>
   export type ChannelInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | Channel$membersArgs<ExtArgs>
     messages?: boolean | Channel$messagesArgs<ExtArgs>
@@ -2799,6 +2810,7 @@ export namespace Prisma {
       description: string | null
       isPrivate: boolean
       createdAt: Date
+      updatedAt: Date | null
       type: $Enums.ChannelType
       hashtags: string[]
     }, ExtArgs["result"]["channel"]>
@@ -3232,6 +3244,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Channel", 'String'>
     readonly isPrivate: FieldRef<"Channel", 'Boolean'>
     readonly createdAt: FieldRef<"Channel", 'DateTime'>
+    readonly updatedAt: FieldRef<"Channel", 'DateTime'>
     readonly type: FieldRef<"Channel", 'ChannelType'>
     readonly hashtags: FieldRef<"Channel", 'String[]'>
   }
@@ -7032,6 +7045,7 @@ export namespace Prisma {
     description: 'description',
     isPrivate: 'isPrivate',
     createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     type: 'type',
     hashtags: 'hashtags'
   };
@@ -7286,6 +7300,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Channel"> | string | null
     isPrivate?: BoolFilter<"Channel"> | boolean
     createdAt?: DateTimeFilter<"Channel"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Channel"> | Date | string | null
     type?: EnumChannelTypeFilter<"Channel"> | $Enums.ChannelType
     hashtags?: StringNullableListFilter<"Channel">
     members?: ChannelMemberListRelationFilter
@@ -7299,6 +7314,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     isPrivate?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
     type?: SortOrder
     hashtags?: SortOrder
     members?: ChannelMemberOrderByRelationAggregateInput
@@ -7315,6 +7331,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Channel"> | string | null
     isPrivate?: BoolFilter<"Channel"> | boolean
     createdAt?: DateTimeFilter<"Channel"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Channel"> | Date | string | null
     type?: EnumChannelTypeFilter<"Channel"> | $Enums.ChannelType
     hashtags?: StringNullableListFilter<"Channel">
     members?: ChannelMemberListRelationFilter
@@ -7328,6 +7345,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     isPrivate?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
     type?: SortOrder
     hashtags?: SortOrder
     _count?: ChannelCountOrderByAggregateInput
@@ -7344,6 +7362,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Channel"> | string | null
     isPrivate?: BoolWithAggregatesFilter<"Channel"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Channel"> | Date | string
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Channel"> | Date | string | null
     type?: EnumChannelTypeWithAggregatesFilter<"Channel"> | $Enums.ChannelType
     hashtags?: StringNullableListFilter<"Channel">
   }
@@ -7660,6 +7679,7 @@ export namespace Prisma {
     description?: string | null
     isPrivate?: boolean
     createdAt?: Date | string
+    updatedAt?: Date | string | null
     type?: $Enums.ChannelType
     hashtags?: ChannelCreatehashtagsInput | string[]
     members?: ChannelMemberCreateNestedManyWithoutChannelInput
@@ -7673,6 +7693,7 @@ export namespace Prisma {
     description?: string | null
     isPrivate?: boolean
     createdAt?: Date | string
+    updatedAt?: Date | string | null
     type?: $Enums.ChannelType
     hashtags?: ChannelCreatehashtagsInput | string[]
     members?: ChannelMemberUncheckedCreateNestedManyWithoutChannelInput
@@ -7686,6 +7707,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
     hashtags?: ChannelUpdatehashtagsInput | string[]
     members?: ChannelMemberUpdateManyWithoutChannelNestedInput
@@ -7699,6 +7721,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
     hashtags?: ChannelUpdatehashtagsInput | string[]
     members?: ChannelMemberUncheckedUpdateManyWithoutChannelNestedInput
@@ -7712,6 +7735,7 @@ export namespace Prisma {
     description?: string | null
     isPrivate?: boolean
     createdAt?: Date | string
+    updatedAt?: Date | string | null
     type?: $Enums.ChannelType
     hashtags?: ChannelCreatehashtagsInput | string[]
   }
@@ -7722,6 +7746,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
     hashtags?: ChannelUpdatehashtagsInput | string[]
   }
@@ -7732,6 +7757,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
     hashtags?: ChannelUpdatehashtagsInput | string[]
   }
@@ -8097,6 +8123,17 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type EnumChannelTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.ChannelType | EnumChannelTypeFieldRefInput<$PrismaModel>
     in?: $Enums.ChannelType[] | ListEnumChannelTypeFieldRefInput<$PrismaModel>
@@ -8128,6 +8165,7 @@ export namespace Prisma {
     description?: SortOrder
     isPrivate?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     type?: SortOrder
     hashtags?: SortOrder
   }
@@ -8138,6 +8176,7 @@ export namespace Prisma {
     description?: SortOrder
     isPrivate?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     type?: SortOrder
   }
 
@@ -8147,7 +8186,22 @@ export namespace Prisma {
     description?: SortOrder
     isPrivate?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     type?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EnumChannelTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -8420,6 +8474,10 @@ export namespace Prisma {
     connectOrCreate?: ChannelSummaryCreateOrConnectWithoutChannelInput | ChannelSummaryCreateOrConnectWithoutChannelInput[]
     createMany?: ChannelSummaryCreateManyChannelInputEnvelope
     connect?: ChannelSummaryWhereUniqueInput | ChannelSummaryWhereUniqueInput[]
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type EnumChannelTypeFieldUpdateOperationsInput = {
@@ -8778,11 +8836,36 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedEnumChannelTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.ChannelType | EnumChannelTypeFieldRefInput<$PrismaModel>
     in?: $Enums.ChannelType[] | ListEnumChannelTypeFieldRefInput<$PrismaModel>
     notIn?: $Enums.ChannelType[] | ListEnumChannelTypeFieldRefInput<$PrismaModel>
     not?: NestedEnumChannelTypeFilter<$PrismaModel> | $Enums.ChannelType
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumChannelTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -9109,6 +9192,7 @@ export namespace Prisma {
     description?: string | null
     isPrivate?: boolean
     createdAt?: Date | string
+    updatedAt?: Date | string | null
     type?: $Enums.ChannelType
     hashtags?: ChannelCreatehashtagsInput | string[]
     messages?: MessageCreateNestedManyWithoutChannelInput
@@ -9121,6 +9205,7 @@ export namespace Prisma {
     description?: string | null
     isPrivate?: boolean
     createdAt?: Date | string
+    updatedAt?: Date | string | null
     type?: $Enums.ChannelType
     hashtags?: ChannelCreatehashtagsInput | string[]
     messages?: MessageUncheckedCreateNestedManyWithoutChannelInput
@@ -9192,6 +9277,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
     hashtags?: ChannelUpdatehashtagsInput | string[]
     messages?: MessageUpdateManyWithoutChannelNestedInput
@@ -9204,6 +9290,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
     hashtags?: ChannelUpdatehashtagsInput | string[]
     messages?: MessageUncheckedUpdateManyWithoutChannelNestedInput
@@ -9253,6 +9340,7 @@ export namespace Prisma {
     description?: string | null
     isPrivate?: boolean
     createdAt?: Date | string
+    updatedAt?: Date | string | null
     type?: $Enums.ChannelType
     hashtags?: ChannelCreatehashtagsInput | string[]
     members?: ChannelMemberCreateNestedManyWithoutChannelInput
@@ -9265,6 +9353,7 @@ export namespace Prisma {
     description?: string | null
     isPrivate?: boolean
     createdAt?: Date | string
+    updatedAt?: Date | string | null
     type?: $Enums.ChannelType
     hashtags?: ChannelCreatehashtagsInput | string[]
     members?: ChannelMemberUncheckedCreateNestedManyWithoutChannelInput
@@ -9399,6 +9488,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
     hashtags?: ChannelUpdatehashtagsInput | string[]
     members?: ChannelMemberUpdateManyWithoutChannelNestedInput
@@ -9411,6 +9501,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
     hashtags?: ChannelUpdatehashtagsInput | string[]
     members?: ChannelMemberUncheckedUpdateManyWithoutChannelNestedInput
@@ -9474,6 +9565,7 @@ export namespace Prisma {
     description?: string | null
     isPrivate?: boolean
     createdAt?: Date | string
+    updatedAt?: Date | string | null
     type?: $Enums.ChannelType
     hashtags?: ChannelCreatehashtagsInput | string[]
     members?: ChannelMemberCreateNestedManyWithoutChannelInput
@@ -9486,6 +9578,7 @@ export namespace Prisma {
     description?: string | null
     isPrivate?: boolean
     createdAt?: Date | string
+    updatedAt?: Date | string | null
     type?: $Enums.ChannelType
     hashtags?: ChannelCreatehashtagsInput | string[]
     members?: ChannelMemberUncheckedCreateNestedManyWithoutChannelInput
@@ -9514,6 +9607,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
     hashtags?: ChannelUpdatehashtagsInput | string[]
     members?: ChannelMemberUpdateManyWithoutChannelNestedInput
@@ -9526,6 +9620,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumChannelTypeFieldUpdateOperationsInput | $Enums.ChannelType
     hashtags?: ChannelUpdatehashtagsInput | string[]
     members?: ChannelMemberUncheckedUpdateManyWithoutChannelNestedInput

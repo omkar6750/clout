@@ -141,6 +141,7 @@ exports.Prisma.ChannelScalarFieldEnum = {
   description: 'description',
   isPrivate: 'isPrivate',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   type: 'type',
   hashtags: 'hashtags'
 };
