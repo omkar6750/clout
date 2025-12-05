@@ -21,7 +21,7 @@ const issueToken = (userId: string) =>
 // -------------------- EMAIL SIGNUP --------------------
 export const signup = async (req: Request, res: Response) => {
 	try {
-		const { email, password, firstName, lastName } = req.body;
+		const { email, password, firstName, lastName, userName } = req.body;
 
 		if (!email || !password || !firstName || !lastName)
 			return res.status(400).json({ error: "All fields are required" });
@@ -38,6 +38,7 @@ export const signup = async (req: Request, res: Response) => {
 				password: hashed,
 				firstName,
 				lastName,
+				userName,
 				isVerified: true, //demo only
 				avatarUrl: null,
 			},

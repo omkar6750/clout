@@ -8,6 +8,7 @@ import passport from "passport";
 
 import "./config/passport.js";
 import authRoutes from "./routes/auth.routes.js";
+import setupSocket from "./socket.js";
 
 dotenv.config();
 
@@ -28,20 +29,12 @@ app.use(passport.initialize());
 app.use("/api/auth", authRoutes);
 
 // Socket.io
-const httpServer = createServer(app);
-const io = new Server(httpServer, {
-	cors: {
-		origin: process.env.FRONTEND_URL,
-		credentials: true,
-	},
-});
+const server = createServer(app);
 
-io.on("connection", (socket) => {
-	console.log("Socket connected:", socket.id);
-});
+setupSocket(server);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
-httpServer.listen(PORT, () => {
+server.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
 });

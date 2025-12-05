@@ -15,11 +15,28 @@ passport.use(
 		},
 		async (_, __, profile, done) => {
 			try {
-				const { id: googleId, emails, name } = profile;
+				const { id: googleId, emails, name, displayName } = profile;
 
 				const email = emails?.[0]?.value;
 				if (!email)
 					return done(new Error("Google email missing"), false);
+
+				let generatedUserName =
+					displayName?.replace(/\s+/g, "_").toLowerCase() ||
+					email.split("@")[0] ||
+					`user_${googleId}`;
+
+				// Ensure the username is unique in the database
+				const existingUserWithSameUsername =
+					await prisma.user.findUnique({
+						where: { userName: generatedUserName },
+					});
+
+				if (existingUserWithSameUsername) {
+					generatedUserName = `${generatedUserName}_${Math.floor(
+						Math.random() * 100000
+					)}`;
+				}
 
 				let user = await prisma.user.findUnique({ where: { email } });
 
@@ -30,6 +47,7 @@ passport.use(
 							googleId,
 							firstName: name?.givenName ?? "User",
 							lastName: name?.familyName ?? "",
+							userName: generatedUserName,
 							avatarUrl: null,
 							isVerified: true,
 						},
