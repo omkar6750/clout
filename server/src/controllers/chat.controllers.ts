@@ -1,19 +1,21 @@
-import { type Request, type Response } from "express";
-import { prisma } from "../db.js"; // Adjust path to your db instance
-import { type AuthRequest } from "../middleware/auth.middleware.js";
+import { type Request, type Response, type RequestHandler } from "express";
+import { prisma } from "../db.js";
 import { ChannelType, Role } from "@prisma/client";
+import type { AuthRequest } from "../middleware/auth.middleware.js";
 
 // ---- CHANNEL MANAGEMENT ----
 
-export const createChannel = async (req: AuthRequest, res: Response) => {
+export const createChannel: RequestHandler = async (req, res) => {
 	try {
-		const userId = req.user!.id;
+		// Change 3: Cast 'req' to 'AuthRequest' here to access .user
+		const userId = (req as AuthRequest).user!.id;
 		const { name, description, isPrivate } = req.body;
 
-		if (!name)
-			return res.status(400).json({ error: "Channel name is required" });
+		if (!name) {
+			res.status(400).json({ error: "Channel name is required" });
+			return;
+		}
 
-		// Atomic transaction: Create channel AND add creator as ADMIN
 		const channel = await prisma.channel.create({
 			data: {
 				name,
@@ -23,29 +25,29 @@ export const createChannel = async (req: AuthRequest, res: Response) => {
 				members: {
 					create: {
 						userId,
-						role: Role.ADMIN, // Creator is Admin
+						role: Role.ADMIN,
 					},
 				},
 			},
 		});
 
-		return res.status(201).json(channel);
+		res.status(201).json(channel);
 	} catch (error) {
 		console.error("Create channel error:", error);
-		return res.status(500).json({ error: "Internal server error" });
+		res.status(500).json({ error: "Internal server error" });
 	}
 };
 
-export const createDM = async (req: AuthRequest, res: Response) => {
+export const createDM: RequestHandler = async (req, res) => {
 	try {
-		const userId = req.user!.id;
+		const userId = (req as AuthRequest).user!.id;
 		const { targetUserId } = req.body;
 
-		if (!targetUserId)
-			return res.status(400).json({ error: "Target user ID required" });
+		if (!targetUserId) {
+			res.status(400).json({ error: "Target user ID required" });
+			return;
+		}
 
-		// 1. Check if a DM already exists between these two users
-		// We look for a DM channel where BOTH users are members
 		const existingDM = await prisma.channel.findFirst({
 			where: {
 				type: ChannelType.DM,
@@ -57,11 +59,10 @@ export const createDM = async (req: AuthRequest, res: Response) => {
 		});
 
 		if (existingDM) {
-			return res.status(200).json(existingDM);
+			res.status(200).json(existingDM);
+			return;
 		}
 
-		// 2. Create new DM
-		// Note: Channel 'name' is required in your schema. We use a placeholder for DMs.
 		const newDM = await prisma.channel.create({
 			data: {
 				name: "dm_channel",
@@ -76,16 +77,16 @@ export const createDM = async (req: AuthRequest, res: Response) => {
 			},
 		});
 
-		return res.status(201).json(newDM);
+		res.status(201).json(newDM);
 	} catch (error) {
 		console.error("Create DM error:", error);
-		return res.status(500).json({ error: "Internal server error" });
+		res.status(500).json({ error: "Internal server error" });
 	}
 };
 
-export const getUserChannels = async (req: AuthRequest, res: Response) => {
+export const getUserChannels: RequestHandler = async (req, res) => {
 	try {
-		const userId = req.user!.id;
+		const userId = (req as AuthRequest).user!.id;
 
 		const channels = await prisma.channel.findMany({
 			where: {
@@ -101,6 +102,7 @@ export const getUserChannels = async (req: AuthRequest, res: Response) => {
 								id: true,
 								firstName: true,
 								lastName: true,
+								userName: true,
 								avatarUrl: true,
 								isOnline: true,
 							},
@@ -111,21 +113,20 @@ export const getUserChannels = async (req: AuthRequest, res: Response) => {
 			orderBy: { updatedAt: "desc" },
 		});
 
-		return res.status(200).json(channels);
+		res.status(200).json(channels);
 	} catch (error) {
 		console.error("Get channels error:", error);
-		return res.status(500).json({ error: "Internal server error" });
+		res.status(500).json({ error: "Internal server error" });
 	}
 };
 
 // ---- MEMBER MANAGEMENT ----
 
-export const addMember = async (req: AuthRequest, res: Response) => {
+export const addMember: RequestHandler = async (req, res) => {
 	try {
-		const adminId = req.user!.id;
+		const adminId = (req as AuthRequest).user!.id;
 		const { channelId, targetUserId } = req.body;
 
-		// 1. Verify requester is ADMIN of this channel
 		const membership = await prisma.channelMember.findUnique({
 			where: {
 				userId_channelId: { userId: adminId, channelId },
@@ -133,12 +134,10 @@ export const addMember = async (req: AuthRequest, res: Response) => {
 		});
 
 		if (!membership || membership.role !== Role.ADMIN) {
-			return res
-				.status(403)
-				.json({ error: "Only admins can add members" });
+			res.status(403).json({ error: "Only admins can add members" });
+			return;
 		}
 
-		// 2. Add the new member
 		const newMember = await prisma.channelMember.create({
 			data: {
 				userId: targetUserId,
@@ -147,19 +146,18 @@ export const addMember = async (req: AuthRequest, res: Response) => {
 			},
 		});
 
-		return res.status(200).json(newMember);
+		res.status(200).json(newMember);
 	} catch (error) {
 		console.error("Add member error:", error);
-		return res.status(500).json({ error: "Could not add member" });
+		res.status(500).json({ error: "Could not add member" });
 	}
 };
 
-export const removeMember = async (req: AuthRequest, res: Response) => {
+export const removeMember: RequestHandler = async (req, res) => {
 	try {
-		const adminId = req.user!.id;
+		const adminId = (req as AuthRequest).user!.id;
 		const { channelId, targetUserId } = req.body;
 
-		// 1. Verify requester is ADMIN
 		const membership = await prisma.channelMember.findUnique({
 			where: {
 				userId_channelId: { userId: adminId, channelId },
@@ -167,36 +165,35 @@ export const removeMember = async (req: AuthRequest, res: Response) => {
 		});
 
 		if (!membership || membership.role !== Role.ADMIN) {
-			return res
-				.status(403)
-				.json({ error: "Only admins can remove members" });
+			res.status(403).json({ error: "Only admins can remove members" });
+			return;
 		}
 
-		// 2. Remove the member
 		await prisma.channelMember.delete({
 			where: {
 				userId_channelId: { userId: targetUserId, channelId },
 			},
 		});
 
-		return res.status(200).json({ message: "Member removed successfully" });
+		res.status(200).json({ message: "Member removed successfully" });
 	} catch (error) {
 		console.error("Remove member error:", error);
-		return res.status(500).json({ error: "Could not remove member" });
+		res.status(500).json({ error: "Could not remove member" });
 	}
 };
 
-// ---- USER PROFILE ----
+// ---- USER PROFILE & SEARCH ----
 
-export const updateUsername = async (req: AuthRequest, res: Response) => {
+export const updateUsername: RequestHandler = async (req, res) => {
 	try {
-		const userId = req.user!.id;
+		const userId = (req as AuthRequest).user!.id;
 		const { username } = req.body;
 
 		if (!username || username.length < 3) {
-			return res
-				.status(400)
-				.json({ error: "Username must be at least 3 chars" });
+			res.status(400).json({
+				error: "Username must be at least 3 chars",
+			});
+			return;
 		}
 
 		const updatedUser = await prisma.user.update({
@@ -204,39 +201,39 @@ export const updateUsername = async (req: AuthRequest, res: Response) => {
 			data: { userName: username },
 		});
 
-		return res.status(200).json({
+		res.status(200).json({
 			message: "Username updated",
 			user: { username: updatedUser.userName },
 		});
 	} catch (error: any) {
-		// Prisma error code for unique constraint violation
 		if (error.code === "P2002") {
-			return res.status(409).json({ error: "Username already taken" });
+			res.status(409).json({ error: "Username already taken" });
+			return;
 		}
 		console.error("Update username error:", error);
-		return res.status(500).json({ error: "Internal server error" });
+		res.status(500).json({ error: "Internal server error" });
 	}
 };
 
-export const checkUsernameAvailability = async (
-	req: Request,
-	res: Response
-) => {
+export const checkUsernameAvailability: RequestHandler = async (req, res) => {
 	try {
 		const { username } = req.query;
 
 		if (!username || typeof username !== "string") {
-			return res.status(400).json({ error: "Invalid username" });
+			res.status(400).json({ error: "Invalid username" });
+			return;
 		}
 
 		const user = await prisma.user.findUnique({
 			where: { userName: username },
-			select: { id: true }, // Optimization: select only ID
+			select: { id: true },
 		});
 
-		return res.status(200).json({ available: !user });
+		res.status(200).json({ available: !user });
 	} catch (error) {
 		console.error("Check username error:", error);
-		return res.status(500).json({ error: "Internal server error" });
+		res.status(500).json({ error: "Internal server error" });
 	}
 };
+
+// NEW: Search Users for DM

@@ -6,6 +6,7 @@ import UserRoute from './router/UserRoute'
 import AuthPage from './pages/AuthPage'
 import ChatPage from './pages/ChatPage'
 import ProtectedRoute from './router/ProtectedRoute'
+import { Toaster } from './components/ui/sonner'
 function App() {
   const fetchMe = useAuthStore((s) => s.fetchMe)
 
@@ -44,6 +45,7 @@ function App() {
 
         <Route path="*" element={<AuthPage />} />
       </Routes>
+      <Toaster />
     </BrowserRouter>
   )
 }

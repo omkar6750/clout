@@ -8,6 +8,9 @@ import passport from "passport";
 
 import "./config/passport.js";
 import authRoutes from "./routes/auth.routes.js";
+import chatRoutes from "./routes/chat.routes.js";
+import userRoutes from "./routes/user.routes.js";
+
 import setupSocket from "./socket.js";
 
 dotenv.config();
@@ -27,7 +30,8 @@ app.use(passport.initialize());
 
 // Routes
 app.use("/api/auth", authRoutes);
-
+app.use("/api/chat", chatRoutes);
+app.use("/api/users", userRoutes);
 // Socket.io
 const server = createServer(app);
 

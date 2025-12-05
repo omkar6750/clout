@@ -9,9 +9,8 @@ interface ChatStore {
   socket: Socket | null
   isConnected: boolean
 
-  // State: Keyed by channelId
   messages: Record<string, Message[]>
-  cursors: Record<string, string | null> // If null, no more messages to load
+  cursors: Record<string, string | null>
 
   // Actions
   connect: () => void

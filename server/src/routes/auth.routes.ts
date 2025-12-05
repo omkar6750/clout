@@ -6,7 +6,7 @@ import {
 	getMe,
 	logout,
 	googleCallback,
-} from "../controllers/auth.controller.js";
+} from "../controllers/auth.controllers.js";
 
 const router = Router();
 
